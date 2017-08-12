@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -665,11 +665,16 @@
                         <menuItem title="Quit" id="IQm-Sr-Wd6">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="didClickExit:" target="Voe-Tx-rLC" id="UKh-MV-RRm"/>
+                                <action selector="didClickExit:" target="TMy-Lc-p22" id="CjU-r7-ySt"/>
                             </connections>
                         </menuItem>
                     </items>
                 </menu>
+                <customObject id="TMy-Lc-p22" customClass="OverkillController" customModule="Overkill" customModuleProvider="target">
+                    <connections>
+                        <outlet property="statusMenu" destination="g81-iv-gd4" id="A9y-q6-Jk0"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
