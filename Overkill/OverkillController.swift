@@ -29,7 +29,6 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         }
 
         startListening()
-        self.didClickPreferences(self)
     }
 
     @IBAction func didClickPreferences(_ sender: Any) {
