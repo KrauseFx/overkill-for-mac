@@ -19,7 +19,9 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     let USERDEFAULTSPROCESSNAMES = "blacklistedProcessNames"
 
     override func awakeFromNib() {
-        statusItem.title = "Overkill"
+        let icon = NSImage(named: "statusIcon")
+        icon?.isTemplate = true
+        statusItem.image = icon
         statusItem.menu = statusMenu
 
         if let blackListedProcessNames = UserDefaults.standard.array(forKey: USERDEFAULTSPROCESSNAMES) {
