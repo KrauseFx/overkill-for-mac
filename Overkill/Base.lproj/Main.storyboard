@@ -670,6 +670,9 @@
                         </menuItem>
                         <menuItem title="Pause Overkill" id="7Su-4f-Uhu">
                             <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="didClickPause:" target="TMy-Lc-p22" id="fyQ-4x-JTn"/>
+                            </connections>
                         </menuItem>
                         <menuItem title="About Overkill" id="TL0-rS-B9j">
                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -685,6 +688,7 @@
                 </menu>
                 <customObject id="TMy-Lc-p22" customClass="OverkillController" customModule="Overkill" customModuleProvider="target">
                     <connections>
+                        <outlet property="pauseButton" destination="7Su-4f-Uhu" id="mx7-lx-WxP"/>
                         <outlet property="statusMenu" destination="g81-iv-gd4" id="A9y-q6-Jk0"/>
                     </connections>
                 </customObject>

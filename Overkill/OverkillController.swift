@@ -10,9 +10,13 @@ import Cocoa
 
 class OverkillController: NSObject {
     @IBOutlet weak var statusMenu: NSMenu!
+    @IBOutlet weak var pauseButton: NSMenuItem!
+
     var preferencesWindow: PreferencesWindow!
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     var blackListedProcessNames: [String] = []
+    var overkillIsPaused = false
+    
 
     override func awakeFromNib() {
         statusItem.title = "Overkill"
@@ -38,6 +42,11 @@ class OverkillController: NSObject {
                       object: nil)
         
         self.killRunningApps()
+    }
+    
+    func stopListening() {
+        let n = NSWorkspace.shared().notificationCenter
+        n.removeObserver(self, name: .NSWorkspaceWillLaunchApplication, object: nil)
     }
     
     func killRunningApps() {
@@ -67,6 +76,18 @@ class OverkillController: NSObject {
         if let process = NSRunningApplication.init(processIdentifier: pid_t(processId)) {
             print("Killing \(processId): \(String(describing: process.localizedName))")
             process.forceTerminate()
+        }
+    }
+    
+    @IBAction func didClickPause(_ sender: Any) {
+        self.overkillIsPaused = !self.overkillIsPaused
+        
+        if (self.overkillIsPaused) {
+            self.stopListening()
+            self.pauseButton.title = "Resume Overkill"
+        } else {
+            self.startListening()
+            self.pauseButton.title = "Pause Overkill"
         }
     }
 }
