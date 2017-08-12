@@ -10,7 +10,7 @@ import Cocoa
 
 class OverkillController: NSObject {
     @IBOutlet weak var statusMenu: NSMenu!
-
+    var preferencesWindow: PreferencesWindow!
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     
     override func awakeFromNib() {
@@ -18,6 +18,12 @@ class OverkillController: NSObject {
         statusItem.menu = statusMenu
     }
     
+
+    @IBAction func didClickPreferences(_ sender: Any) {
+        preferencesWindow = PreferencesWindow()
+        preferencesWindow.showWindow(nil)
+    }
+
     @IBAction func didClickExit(_ sender: Any) {
         NSApplication.shared().terminate(self)
     }

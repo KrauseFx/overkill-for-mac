@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		CA0257141F3F952600F5D9BE /* OverkillController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0257131F3F952600F5D9BE /* OverkillController.swift */; };
+		CA0257161F3F978A00F5D9BE /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA0257151F3F978A00F5D9BE /* PreferencesWindow.xib */; };
+		CA0257181F3F97D300F5D9BE /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0257171F3F97D300F5D9BE /* PreferencesWindow.swift */; };
 		CA14B54A1F3F933A00C9F139 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA14B5491F3F933A00C9F139 /* AppDelegate.swift */; };
 		CA14B54E1F3F933A00C9F139 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA14B54D1F3F933A00C9F139 /* Assets.xcassets */; };
 		CA14B5511F3F933A00C9F139 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA14B54F1F3F933A00C9F139 /* Main.storyboard */; };
@@ -15,6 +17,8 @@
 
 /* Begin PBXFileReference section */
 		CA0257131F3F952600F5D9BE /* OverkillController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverkillController.swift; sourceTree = "<group>"; };
+		CA0257151F3F978A00F5D9BE /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
+		CA0257171F3F97D300F5D9BE /* PreferencesWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		CA14B5461F3F933A00C9F139 /* Overkill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overkill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA14B5491F3F933A00C9F139 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA14B54D1F3F933A00C9F139 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,6 +61,8 @@
 				CA14B54F1F3F933A00C9F139 /* Main.storyboard */,
 				CA14B5521F3F933A00C9F139 /* Info.plist */,
 				CA0257131F3F952600F5D9BE /* OverkillController.swift */,
+				CA0257151F3F978A00F5D9BE /* PreferencesWindow.xib */,
+				CA0257171F3F97D300F5D9BE /* PreferencesWindow.swift */,
 			);
 			path = Overkill;
 			sourceTree = "<group>";
@@ -122,6 +128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA14B54E1F3F933A00C9F139 /* Assets.xcassets in Resources */,
+				CA0257161F3F978A00F5D9BE /* PreferencesWindow.xib in Resources */,
 				CA14B5511F3F933A00C9F139 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA14B54A1F3F933A00C9F139 /* AppDelegate.swift in Sources */,
+				CA0257181F3F97D300F5D9BE /* PreferencesWindow.swift in Sources */,
 				CA0257141F3F952600F5D9BE /* OverkillController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
