@@ -25,13 +25,16 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         
         if let blackListedProcessNames = UserDefaults.standard.array(forKey: USERDEFAULTSPROCESSNAMES) {
             self.blackListedProcessNames = blackListedProcessNames as! [String]
+        } else {
+            self.blackListedProcessNames = ["com.apple.iTunes", "com.apple.Photos"]
         }
 
         startListening()
+        self.didClickPreferences(self)
     }
 
     @IBAction func didClickPreferences(_ sender: Any) {
-        preferencesWindow = PreferencesWindow()
+        self.preferencesWindow = PreferencesWindow()
         preferencesWindow.blackListedProcessNames = self.blackListedProcessNames
         preferencesWindow.showWindow(nil)
         preferencesWindow.delegate = self
@@ -42,8 +45,8 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     }
     
     func preferencesDidUpdate(blackListedProcessNames: Array<String>) {
-        UserDefaults.standard.setValue(self.blackListedProcessNames, forKey: USERDEFAULTSPROCESSNAMES)
         self.blackListedProcessNames = blackListedProcessNames
+        UserDefaults.standard.setValue(self.blackListedProcessNames, forKey: USERDEFAULTSPROCESSNAMES)
         
         self.killRunningApps()
     }
