@@ -29,6 +29,9 @@
                     </textField>
                 </subviews>
             </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="ItK-A6-6u6"/>
+            </connections>
         </window>
     </objects>
 </document>

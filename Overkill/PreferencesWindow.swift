@@ -8,7 +8,14 @@
 
 import Cocoa
 
+protocol PreferencesWindowDelegate {
+    func preferencesDidUpdate(blackListedProcessNames:Array<String>)
+}
+
 class PreferencesWindow: NSWindowController, NSWindowDelegate {
+    var blackListedProcessNames: [String] = []
+    var delegate: PreferencesWindowDelegate?
+
     override var windowNibName : String! {
         return "PreferencesWindow"
     }
@@ -18,11 +25,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate {
         
         self.window?.center()
         self.window?.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true) // TODO: what does this do
+        NSApp.activate(ignoringOtherApps: true)
     }
     
     func windowWillClose(_ notification: Notification) {
-//        let defaults = UserDefaults.standard
-//        defaults.setValue(cityTextField.stringValue, forKey: "city")
+        self.delegate?.preferencesDidUpdate(blackListedProcessNames: self.blackListedProcessNames)
     }
 }

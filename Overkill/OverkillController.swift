@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class OverkillController: NSObject {
+class OverkillController: NSObject, PreferencesWindowDelegate {
     @IBOutlet weak var statusMenu: NSMenu!
     @IBOutlet weak var pauseButton: NSMenuItem!
 
@@ -16,23 +16,36 @@ class OverkillController: NSObject {
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     var blackListedProcessNames: [String] = []
     var overkillIsPaused = false
+    let USERDEFAULTSPROCESSNAMES = "blacklistedProcessNames"
     
 
     override func awakeFromNib() {
         statusItem.title = "Overkill"
         statusItem.menu = statusMenu
         
-        self.blackListedProcessNames = ["com.apple.iTunes", "com.apple.Photos"] // TODO: move to preferences
+        if let blackListedProcessNames = UserDefaults.standard.array(forKey: USERDEFAULTSPROCESSNAMES) {
+            self.blackListedProcessNames = blackListedProcessNames as! [String]
+        }
+
         startListening()
     }
 
     @IBAction func didClickPreferences(_ sender: Any) {
         preferencesWindow = PreferencesWindow()
+        preferencesWindow.blackListedProcessNames = self.blackListedProcessNames
         preferencesWindow.showWindow(nil)
+        preferencesWindow.delegate = self
     }
 
     @IBAction func didClickExit(_ sender: Any) {
         NSApplication.shared().terminate(self)
+    }
+    
+    func preferencesDidUpdate(blackListedProcessNames: Array<String>) {
+        UserDefaults.standard.setValue(self.blackListedProcessNames, forKey: USERDEFAULTSPROCESSNAMES)
+        self.blackListedProcessNames = blackListedProcessNames
+        
+        self.killRunningApps()
     }
     
     func startListening() {
