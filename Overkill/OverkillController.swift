@@ -18,7 +18,7 @@ class OverkillController: NSObject {
         statusItem.title = "Overkill"
         statusItem.menu = statusMenu
         
-        self.blackListedProcessNames = ["iTunes", "Photos"] // TODO: move to preferences
+        self.blackListedProcessNames = ["com.apple.iTunes", "com.apple.Photos"] // TODO: move to preferences
         startListening()
     }
 
@@ -36,21 +36,37 @@ class OverkillController: NSObject {
         n.addObserver(self, selector: #selector(self.appWillLaunch(note:)),
                       name: .NSWorkspaceWillLaunchApplication,
                       object: nil)
+        
+        self.killRunningApps()
     }
     
-    func appWillLaunch(note:Notification) {
-        if let processName:String = note.userInfo?["NSApplicationName"] as? String {
-            if let processId = note.userInfo?["NSApplicationProcessIdentifier"] as? Int {
-                print(processName)
-                if self.blackListedProcessNames.contains(processName) {
-                    print("Killing " + processName)
-                    self.killProcess(processId, processName)
+    func killRunningApps() {
+        let runningApplications = NSWorkspace.shared().runningApplications
+        for currentApplication in runningApplications.enumerated() {
+            let runningApplication = runningApplications[currentApplication.offset]
+            
+            if (runningApplication.activationPolicy == .regular) { // normal macOS application
+                if (self.blackListedProcessNames.contains(runningApplication.bundleIdentifier!)) {
+                    self.killProcess(Int(runningApplication.processIdentifier))
                 }
             }
         }
     }
-    func killProcess(_ processId:Int,_ processName:String) {
-        let process = NSRunningApplication.init(processIdentifier: pid_t(processId))
-        process?.forceTerminate()
+    
+    func appWillLaunch(note:Notification) {
+        if let processBundleIdentifier:String = note.userInfo?["NSApplicationBundleIdentifier"] as? String { // the bundle identifier
+            if let processId = note.userInfo?["NSApplicationProcessIdentifier"] as? Int { // the pid
+                if (self.blackListedProcessNames.contains(processBundleIdentifier)) {
+                    self.killProcess(processId)
+                }
+            }
+        }
+    }
+
+    func killProcess(_ processId:Int) {
+        if let process = NSRunningApplication.init(processIdentifier: pid_t(processId)) {
+            print("Killing \(processId): \(String(describing: process.localizedName))")
+            process.forceTerminate()
+        }
     }
 }
