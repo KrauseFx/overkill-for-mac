@@ -12,12 +12,17 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var statusMenu: NSMenu!
+    
+    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+
 
     @IBAction func didClickExit(_ sender: Any) {
+        NSApplication.shared().terminate(self)
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        statusItem.title = "Overkill"
+        statusItem.menu = statusMenu
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
