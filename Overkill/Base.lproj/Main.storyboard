@@ -664,6 +664,9 @@
                     <items>
                         <menuItem title="Preferences" id="y4I-Hb-1Qn">
                             <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="didClickPreferences:" target="TMy-Lc-p22" id="Q2m-bI-SaV"/>
+                            </connections>
                         </menuItem>
                         <menuItem title="Pause Overkill" id="7Su-4f-Uhu">
                             <modifierMask key="keyEquivalentModifierMask"/>
