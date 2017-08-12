@@ -662,6 +662,16 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="g81-iv-gd4">
                     <items>
+                        <menuItem title="Preferences" id="y4I-Hb-1Qn">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Pause Overkill" id="7Su-4f-Uhu">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="About Overkill" id="TL0-rS-B9j">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="qae-fO-f95"/>
                         <menuItem title="Quit" id="IQm-Sr-Wd6">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
