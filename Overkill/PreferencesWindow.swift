@@ -29,6 +29,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         NSApp.activate(ignoringOtherApps: true)
     }
 
+    @IBAction func didClickDone(_ sender: Any) {
+        // TODO: Closing windows doesn't work yet
+    }
+
     @IBAction func didClickPlusButton(_ sender: Any) {
         let dialog = NSOpenPanel()
 
@@ -80,12 +84,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         var txtValue = ""
 
         if (column == "AutomaticTableColumnIdentifier.0") {
-            txtValue = ""
-        } else if (column == "AutomaticTableColumnIdentifier.1") {
             txtValue = self.blackListedProcessNames[row] // bundle identifier
-        } else if (column == "AutomaticTableColumnIdentifier.2") {
-            // localised name
-            txtValue = ""
         }
 
         result.textField?.stringValue = txtValue
