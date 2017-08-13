@@ -676,6 +676,9 @@
                         </menuItem>
                         <menuItem title="About Overkill" id="TL0-rS-B9j">
                             <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="didClickAbout:" target="TMy-Lc-p22" id="gkv-Lm-ocG"/>
+                            </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="qae-fO-f95"/>
                         <menuItem title="Quit" id="IQm-Sr-Wd6">

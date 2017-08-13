@@ -13,6 +13,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     @IBOutlet weak var pauseButton: NSMenuItem!
 
     var preferencesWindow: PreferencesWindow!
+    var aboutWindow: AboutWindow!
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     var blackListedProcessNames: [String] = []
     var overkillIsPaused = false
@@ -31,6 +32,10 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         }
 
         startListening()
+    }
+    @IBAction func didClickAbout(_ sender: Any) {
+        self.aboutWindow = AboutWindow()
+        self.aboutWindow.showWindow(nil)
     }
 
     @IBAction func didClickPreferences(_ sender: Any) {
