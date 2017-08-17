@@ -52,7 +52,16 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
                 fullPath = fullPath.replacingOccurrences(of: "file://", with: "")
                 let content = NSDictionary(contentsOfFile: fullPath)
                 let bundleIdentifier = content?.value(forKey: "CFBundleIdentifier") as! String
-                self.blackListedProcessNames.append(bundleIdentifier)
+                if (bundleIdentifier == "com.krausefx.Overkill") {
+                    let alert = NSAlert()
+                    alert.messageText = "Ouch..."
+                    alert.informativeText = "Somewhere in the world, a Nokia phone just dropped... on another Nokia phone"
+                    alert.alertStyle = .informational
+                    alert.addButton(withTitle: "OK, I feel ashamed, I'm sorry")
+                    alert.runModal()
+                } else {
+                    self.blackListedProcessNames.append(bundleIdentifier)
+                }
             }
         }
 
