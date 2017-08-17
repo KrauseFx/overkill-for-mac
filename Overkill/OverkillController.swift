@@ -37,15 +37,25 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         startListening()
     }
     @IBAction func didClickAbout(_ sender: Any) {
+        if (aboutWindow != nil) {
+            aboutWindow.window?.close()
+            aboutWindow = nil
+        }
+        
         self.aboutWindow = AboutWindow()
         self.aboutWindow.showWindow(nil)
     }
 
     @IBAction func didClickPreferences(_ sender: Any) {
+        if (preferencesWindow != nil) {
+            preferencesWindow.window?.close()
+            preferencesWindow = nil
+        }
         self.preferencesWindow = PreferencesWindow()
         preferencesWindow.blackListedProcessNames = self.blackListedProcessNames
         preferencesWindow.showWindow(nil)
         preferencesWindow.delegate = self
+        preferencesWindow.window?.makeKeyAndOrderFront(self)
     }
 
     @IBAction func didClickExit(_ sender: Any) {

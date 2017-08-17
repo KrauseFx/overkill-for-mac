@@ -30,7 +30,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
     }
 
     @IBAction func didClickDone(_ sender: Any) {
-        // TODO: Closing windows doesn't work yet
+        self.close()
     }
 
     @IBAction func didClickPlusButton(_ sender: Any) {
