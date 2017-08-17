@@ -674,6 +674,12 @@
                                 <action selector="didClickPreferences:" target="TMy-Lc-p22" id="Q2m-bI-SaV"/>
                             </connections>
                         </menuItem>
+                        <menuItem title="Start at Login" id="CRc-72-xlP">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="didClickStartAtLogin:" target="TMy-Lc-p22" id="lVz-UH-J8M"/>
+                            </connections>
+                        </menuItem>
                         <menuItem title="About Overkill" id="TL0-rS-B9j">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
@@ -692,6 +698,7 @@
                 <customObject id="TMy-Lc-p22" customClass="OverkillController" customModule="Overkill" customModuleProvider="target">
                     <connections>
                         <outlet property="pauseButton" destination="7Su-4f-Uhu" id="mx7-lx-WxP"/>
+                        <outlet property="startAtLoginMenuItem" destination="CRc-72-xlP" id="ACO-cW-mDZ"/>
                         <outlet property="statusMenu" destination="g81-iv-gd4" id="A9y-q6-Jk0"/>
                     </connections>
                 </customObject>

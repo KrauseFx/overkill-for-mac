@@ -14,6 +14,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
 
     var preferencesWindow: PreferencesWindow!
     var aboutWindow: AboutWindow!
+    @IBOutlet weak var startAtLoginMenuItem: NSMenuItem!
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     var blackListedProcessNames: [String] = []
     var overkillIsPaused = false
@@ -30,6 +31,8 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         } else {
             self.blackListedProcessNames = ["com.apple.iTunes", "com.apple.Photos"]
         }
+        
+        self.refreshStartAtLoginState()
 
         startListening()
     }
@@ -109,6 +112,19 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         } else {
             self.startListening()
             self.pauseButton.title = "Pause Overkill"
+        }
+    }
+    
+    @IBAction func didClickStartAtLogin(_ sender: NSMenuItem) {
+        toggleLaunchAtStartup()
+        refreshStartAtLoginState()
+    }
+    
+    func refreshStartAtLoginState() {
+        if (applicationIsInStartUpItems()) {
+            self.startAtLoginMenuItem.state = 1
+        } else {
+            self.startAtLoginMenuItem.state = 0
         }
     }
 }
