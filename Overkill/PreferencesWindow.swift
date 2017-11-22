@@ -81,7 +81,13 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
     func windowWillClose(_ notification: Notification) {
 
     }
-
+    @IBAction func didClickKrauseFxBestButtonIsBestButton(_ sender: Any) {
+        NSWorkspace.shared().open(URL(string: "https://twitter.com/KrauseFx")!)
+    }
+    @IBAction func didClickOnDaniel(_ sender: Any) {
+        NSWorkspace.shared().open(URL(string: "https://twitter.com/danielsinger")!)
+    }
+    
     func numberOfRows(in tableView: NSTableView) -> Int {
         return self.blackListedProcessNames.count
     }

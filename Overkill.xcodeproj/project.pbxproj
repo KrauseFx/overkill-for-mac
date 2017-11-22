@@ -14,8 +14,6 @@
 		CA14B54E1F3F933A00C9F139 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA14B54D1F3F933A00C9F139 /* Assets.xcassets */; };
 		CA14B5511F3F933A00C9F139 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA14B54F1F3F933A00C9F139 /* Main.storyboard */; };
 		CA4AF9641F45683B006346DB /* LaunchStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4AF9631F45683B006346DB /* LaunchStarter.swift */; };
-		CA8AD1241F3FE7E20052E602 /* AboutWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA8AD1231F3FE7E20052E602 /* AboutWindow.xib */; };
-		CA8AD1261F3FE7F20052E602 /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8AD1251F3FE7F20052E602 /* AboutWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +26,6 @@
 		CA14B5501F3F933A00C9F139 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CA14B5521F3F933A00C9F139 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA4AF9631F45683B006346DB /* LaunchStarter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchStarter.swift; sourceTree = "<group>"; };
-		CA8AD1231F3FE7E20052E602 /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutWindow.xib; sourceTree = "<group>"; };
-		CA8AD1251F3FE7F20052E602 /* AboutWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +65,6 @@
 				CA0257131F3F952600F5D9BE /* OverkillController.swift */,
 				CA0257151F3F978A00F5D9BE /* PreferencesWindow.xib */,
 				CA0257171F3F97D300F5D9BE /* PreferencesWindow.swift */,
-				CA8AD1231F3FE7E20052E602 /* AboutWindow.xib */,
-				CA8AD1251F3FE7F20052E602 /* AboutWindow.swift */,
 				CA4AF9631F45683B006346DB /* LaunchStarter.swift */,
 			);
 			path = Overkill;
@@ -139,7 +133,6 @@
 				CA14B54E1F3F933A00C9F139 /* Assets.xcassets in Resources */,
 				CA0257161F3F978A00F5D9BE /* PreferencesWindow.xib in Resources */,
 				CA14B5511F3F933A00C9F139 /* Main.storyboard in Resources */,
-				CA8AD1241F3FE7E20052E602 /* AboutWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,7 +147,6 @@
 				CA4AF9641F45683B006346DB /* LaunchStarter.swift in Sources */,
 				CA0257181F3F97D300F5D9BE /* PreferencesWindow.swift in Sources */,
 				CA0257141F3F952600F5D9BE /* OverkillController.swift in Sources */,
-				CA8AD1261F3FE7F20052E602 /* AboutWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

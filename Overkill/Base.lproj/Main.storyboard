@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -678,12 +678,6 @@
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="didClickStartAtLogin:" target="TMy-Lc-p22" id="lVz-UH-J8M"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="About Overkill" id="TL0-rS-B9j">
-                            <modifierMask key="keyEquivalentModifierMask"/>
-                            <connections>
-                                <action selector="didClickAbout:" target="TMy-Lc-p22" id="gkv-Lm-ocG"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="qae-fO-f95"/>

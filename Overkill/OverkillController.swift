@@ -13,7 +13,6 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     @IBOutlet weak var pauseButton: NSMenuItem!
 
     var preferencesWindow: PreferencesWindow!
-    var aboutWindow: AboutWindow!
     @IBOutlet weak var startAtLoginMenuItem: NSMenuItem!
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     var blackListedProcessNames: [String] = []
@@ -35,15 +34,6 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         self.refreshStartAtLoginState()
 
         startListening()
-    }
-    @IBAction func didClickAbout(_ sender: Any) {
-        if (aboutWindow != nil) {
-            aboutWindow.window?.close()
-            aboutWindow = nil
-        }
-        
-        self.aboutWindow = AboutWindow()
-        self.aboutWindow.showWindow(nil)
     }
 
     @IBAction func didClickPreferences(_ sender: Any) {
