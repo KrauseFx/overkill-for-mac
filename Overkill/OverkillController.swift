@@ -18,6 +18,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     var blackListedProcessNames: [String] = []
     var overkillIsPaused = false
     let USERDEFAULTSPROCESSNAMES = "blacklistedProcessNames"
+    let USERDEFAULTSFIRSTTIME = "firstLaunchForOverkill"
 
     override func awakeFromNib() {
         let icon = NSImage(named: "statusIcon")
@@ -34,6 +35,12 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         self.refreshStartAtLoginState()
 
         startListening()
+        
+        // First time app launch, let's show the settings screen
+        if UserDefaults.standard.bool(forKey: USERDEFAULTSFIRSTTIME) == false {
+            self.didClickPreferences(self)
+            UserDefaults.standard.set(true, forKey: USERDEFAULTSFIRSTTIME)
+        }
     }
 
     @IBAction func didClickPreferences(_ sender: Any) {
