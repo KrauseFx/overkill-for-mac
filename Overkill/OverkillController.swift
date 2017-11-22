@@ -28,7 +28,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         if let blackListedProcessNames = UserDefaults.standard.array(forKey: USERDEFAULTSPROCESSNAMES) {
             self.blackListedProcessNames = blackListedProcessNames as! [String]
         } else {
-            self.blackListedProcessNames = ["com.apple.iTunes", "com.apple.Photos"]
+            self.blackListedProcessNames = ["com.apple.iTunes"]
         }
         
         self.refreshStartAtLoginState()
