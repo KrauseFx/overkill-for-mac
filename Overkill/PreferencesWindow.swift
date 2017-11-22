@@ -68,6 +68,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         self.applicationsTableView.reloadData()
         self.delegate?.preferencesDidUpdate(blackListedProcessNames: self.blackListedProcessNames)
     }
+    
+    override func cancelOperation(_ sender: Any?) {
+        self.close()
+    }
 
     @IBAction func didClickMinusButton(_ sender: Any) {
         if (self.applicationsTableView.selectedRow >= 0) {
