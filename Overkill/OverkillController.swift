@@ -43,6 +43,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         }
         self.preferencesWindow = PreferencesWindow()
         preferencesWindow.blackListedProcessNames = self.blackListedProcessNames
+        preferencesWindow.appIsInAutostart = applicationIsInStartUpItems()
         preferencesWindow.showWindow(nil)
         preferencesWindow.delegate = self
         preferencesWindow.window?.makeKeyAndOrderFront(self)
@@ -115,9 +116,13 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         }
     }
     
-    @IBAction func didClickStartAtLogin(_ sender: NSMenuItem) {
+    @IBAction func didClickStartAtLogin(_ sender: Any) {
         toggleLaunchAtStartup()
         refreshStartAtLoginState()
+    }
+    
+    func preferencesDidUpdateAutoLaunch() {
+        self.didClickStartAtLogin(self)
     }
     
     func refreshStartAtLoginState() {

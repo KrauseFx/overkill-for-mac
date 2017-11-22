@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindow" customModule="Overkill" customModuleProvider="target">
             <connections>
                 <outlet property="applicationsTableView" destination="6Z8-pc-P4G" id="0nR-HA-nlf"/>
+                <outlet property="startAtLoginButton" destination="OwX-Zz-6lf" id="V6t-ZY-lWY"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="ajq-LA-bdI"/>
             </connections>
         </customObject>
@@ -116,23 +117,12 @@
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cst-lx-r2v">
                         <rect key="frame" x="20" y="168" width="190" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Applications to be &quot;monitored&quot;" id="Oyo-Hk-I3O">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Applications to be monitored" id="Oyo-Hk-I3O">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bu0-3y-6tE">
-                        <rect key="frame" x="385" y="11" width="72" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hRB-ua-tbn">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="didClickDone:" target="-2" id="1df-Xb-2a8"/>
-                        </connections>
-                    </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="joR-AT-Af1">
                         <rect key="frame" x="280" y="168" width="132" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -151,6 +141,17 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kD4-5G-lbD">
+                        <rect key="frame" x="428" y="129" width="126" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="@KrauseFx" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wwg-pc-3dt">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="didClickKrauseFxBestButtonIsBestButton:" target="-2" id="KAi-6C-h8D"/>
+                        </connections>
+                    </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P3k-iv-32E">
                         <rect key="frame" x="280" y="113" width="148" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -171,15 +172,26 @@
                             <action selector="didClickOnDaniel:" target="-2" id="j8U-lD-CBB"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kD4-5G-lbD">
-                        <rect key="frame" x="428" y="129" width="126" height="32"/>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OwX-Zz-6lf">
+                        <rect key="frame" x="282" y="11" width="130" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="@KrauseFx" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wwg-pc-3dt">
+                        <buttonCell key="cell" type="check" title="Start at Login" bezelStyle="regularSquare" imagePosition="left" inset="2" id="irH-SE-4c6">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="didClickStartAtLogin:" target="-2" id="Did-j4-hLt"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bu0-3y-6tE">
+                        <rect key="frame" x="482" y="6" width="72" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hRB-ua-tbn">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="didClickKrauseFxBestButtonIsBestButton:" target="-2" id="KAi-6C-h8D"/>
+                            <action selector="didClickDone:" target="-2" id="1df-Xb-2a8"/>
                         </connections>
                     </button>
                 </subviews>
@@ -187,7 +199,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="ItK-A6-6u6"/>
             </connections>
-            <point key="canvasLocation" x="-322" y="100"/>
+            <point key="canvasLocation" x="-322" y="99.5"/>
         </window>
     </objects>
     <resources>

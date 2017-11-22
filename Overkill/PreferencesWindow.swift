@@ -10,13 +10,17 @@ import Cocoa
 
 protocol PreferencesWindowDelegate {
     func preferencesDidUpdate(blackListedProcessNames: Array<String>)
+    func preferencesDidUpdateAutoLaunch()
 }
 
 class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource {
     @IBOutlet weak var applicationsTableView: NSTableView!
 
     var blackListedProcessNames: [String] = []
+    var appIsInAutostart: Bool = false
     var delegate: PreferencesWindowDelegate?
+
+    @IBOutlet weak var startAtLoginButton: NSButton!
 
     override var windowNibName: String! {
         return "PreferencesWindow"
@@ -24,6 +28,9 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        if appIsInAutostart {
+            self.startAtLoginButton.state = NSControlStateValueOn
+        }
         self.window?.center()
         self.window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
@@ -82,6 +89,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         self.delegate?.preferencesDidUpdate(blackListedProcessNames: self.blackListedProcessNames)
     }
 
+    @IBAction func didClickStartAtLogin(_ sender: NSButton) {
+        self.delegate?.preferencesDidUpdateAutoLaunch()
+    }
+    
     func windowWillClose(_ notification: Notification) {
 
     }
