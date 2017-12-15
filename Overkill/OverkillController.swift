@@ -116,10 +116,10 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
 
         if (self.overkillIsPaused) {
             self.stopListening()
-            self.pauseButton.title = "Resume Overkill"
+            self.pauseButton.title = NSLocalizedString("Resume Overkill", comment: "")
         } else {
             self.startListening()
-            self.pauseButton.title = "Pause Overkill"
+            self.pauseButton.title = NSLocalizedString("Pause Overkill", comment: "")
         }
     }
     

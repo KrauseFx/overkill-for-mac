@@ -1,0 +1,19 @@
+/*
+  Localizable.strings
+  Overkill
+
+  Copyright © 2017 Felix Krause. All rights reserved.
+*/
+
+
+// OverkillController.swift
+
+"Resume Overkill" = "Resume Overkill";
+"Pause Overksill" = "Pause Overkill";
+
+// PreferencesWindow.swift
+
+"Choose an application" = "Choose an application";
+"Ouch..." = "Ouch...";
+"Somewhere in the world, a Nokia phone just dropped... on another Nokia phone" = "Somewhere in the world, a Nokia phone just dropped... on another Nokia phone";
+"OK, I feel ashamed, I'm sorry" = "OK, I feel ashamed, I'm sorry";

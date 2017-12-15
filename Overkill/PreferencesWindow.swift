@@ -44,7 +44,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         let dialog = NSOpenPanel()
 
         dialog.directoryURL = URL(string: "/Applications")
-        dialog.title                   = "Choose an application"
+        dialog.title                   = NSLocalizedString("Choose an application", comment: "")
         dialog.showsResizeIndicator    = true
         dialog.showsHiddenFiles        = false
         dialog.canChooseDirectories    = false
@@ -61,10 +61,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
                 let bundleIdentifier = content?.value(forKey: "CFBundleIdentifier") as! String
                 if (bundleIdentifier == "com.krausefx.Overkill") {
                     let alert = NSAlert()
-                    alert.messageText = "Ouch..."
-                    alert.informativeText = "Somewhere in the world, a Nokia phone just dropped... on another Nokia phone"
+                    alert.messageText = NSLocalizedString("Ouch...", comment: "")
+                    alert.informativeText = NSLocalizedString("Somewhere in the world, a Nokia phone just dropped... on another Nokia phone", comment: "")
                     alert.alertStyle = .informational
-                    alert.addButton(withTitle: "OK, I feel ashamed, I'm sorry")
+                    alert.addButton(withTitle: NSLocalizedString("OK, I feel ashamed, I'm sorry", comment: ""))
                     alert.runModal()
                 } else {
                     self.blackListedProcessNames.append(bundleIdentifier)
