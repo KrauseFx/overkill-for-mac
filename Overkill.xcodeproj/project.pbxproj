@@ -14,6 +14,7 @@
 		CA14B54E1F3F933A00C9F139 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA14B54D1F3F933A00C9F139 /* Assets.xcassets */; };
 		CA14B5511F3F933A00C9F139 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA14B54F1F3F933A00C9F139 /* Main.storyboard */; };
 		CA4AF9641F45683B006346DB /* LaunchStarter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4AF9631F45683B006346DB /* LaunchStarter.swift */; };
+		F14729AC1FE383B30099D072 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F14729AE1FE383B30099D072 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		CA14B5501F3F933A00C9F139 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CA14B5521F3F933A00C9F139 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA4AF9631F45683B006346DB /* LaunchStarter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchStarter.swift; sourceTree = "<group>"; };
+		F14729AF1FE38F140099D072 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				CA0257151F3F978A00F5D9BE /* PreferencesWindow.xib */,
 				CA0257171F3F97D300F5D9BE /* PreferencesWindow.swift */,
 				CA4AF9631F45683B006346DB /* LaunchStarter.swift */,
+				F14729AE1FE383B30099D072 /* Localizable.strings */,
 			);
 			path = Overkill;
 			sourceTree = "<group>";
@@ -102,7 +105,8 @@
 				TargetAttributes = {
 					CA14B5451F3F933A00C9F139 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = N8X438SEU2;
+						DevelopmentTeam = TKRZ2F6UEQ;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -131,6 +135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA14B54E1F3F933A00C9F139 /* Assets.xcassets in Resources */,
+				F14729AC1FE383B30099D072 /* Localizable.strings in Resources */,
 				CA0257161F3F978A00F5D9BE /* PreferencesWindow.xib in Resources */,
 				CA14B5511F3F933A00C9F139 /* Main.storyboard in Resources */,
 			);
@@ -159,6 +164,14 @@
 				CA14B5501F3F933A00C9F139 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F14729AE1FE383B30099D072 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F14729AF1FE38F140099D072 /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -274,13 +287,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = TKRZ2F6UEQ;
 				INFOPLIST_FILE = Overkill/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.krausefx.Overkill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -290,13 +304,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = TKRZ2F6UEQ;
 				INFOPLIST_FILE = Overkill/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.krausefx.Overkill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

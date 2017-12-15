@@ -22,14 +22,14 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
 
     @IBOutlet weak var startAtLoginButton: NSButton!
 
-    override var windowNibName: String! {
-        return "PreferencesWindow"
+    override var windowNibName: NSNib.Name! {
+        return NSNib.Name("PreferencesWindow")
     }
 
     override func windowDidLoad() {
         super.windowDidLoad()
         if appIsInAutostart {
-            self.startAtLoginButton.state = NSControlStateValueOn
+            self.startAtLoginButton.state = NSControl.StateValue.on
         }
         self.window?.center()
         self.window?.makeKeyAndOrderFront(nil)
@@ -44,14 +44,14 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         let dialog = NSOpenPanel()
 
         dialog.directoryURL = URL(string: "/Applications")
-        dialog.title                   = "Choose an application"
+        dialog.title                   = NSLocalizedString("Choose an application", comment: "")
         dialog.showsResizeIndicator    = true
         dialog.showsHiddenFiles        = false
         dialog.canChooseDirectories    = false
         dialog.allowsMultipleSelection = false
         dialog.allowedFileTypes        = ["app"]
 
-        if (dialog.runModal() == NSModalResponseOK) {
+        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
             let result = dialog.url // Pathname of the file
 
             if (result != nil) {
@@ -61,10 +61,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
                 let bundleIdentifier = content?.value(forKey: "CFBundleIdentifier") as! String
                 if (bundleIdentifier == "com.krausefx.Overkill") {
                     let alert = NSAlert()
-                    alert.messageText = "Ouch..."
-                    alert.informativeText = "Somewhere in the world, a Nokia phone just dropped... on another Nokia phone"
+                    alert.messageText = NSLocalizedString("Ouch...", comment: "")
+                    alert.informativeText = NSLocalizedString("Somewhere in the world, a Nokia phone just dropped... on another Nokia phone", comment: "")
                     alert.alertStyle = .informational
-                    alert.addButton(withTitle: "OK, I feel ashamed, I'm sorry")
+                    alert.addButton(withTitle: NSLocalizedString("OK, I feel ashamed, I'm sorry", comment: ""))
                     alert.runModal()
                 } else {
                     self.blackListedProcessNames.append(bundleIdentifier)
@@ -97,10 +97,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
 
     }
     @IBAction func didClickKrauseFxBestButtonIsBestButton(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: "https://twitter.com/KrauseFx")!)
+        NSWorkspace.shared.open(URL(string: "https://twitter.com/KrauseFx")!)
     }
     @IBAction func didClickOnDaniel(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: "https://twitter.com/danielsinger")!)
+        NSWorkspace.shared.open(URL(string: "https://twitter.com/danielsinger")!)
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -109,11 +109,11 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         var result: NSTableCellView
-        result  = tableView.make(withIdentifier: (tableColumn?.identifier)!, owner: self) as! NSTableCellView
+        result  = tableView.makeView(withIdentifier: (tableColumn?.identifier)!, owner: self) as! NSTableCellView
         let column = (tableColumn?.identifier)!
         var txtValue = ""
 
-        if (column == "AutomaticTableColumnIdentifier.0") {
+        if (column.rawValue == "AutomaticTableColumnIdentifier.0") {
             txtValue = self.blackListedProcessNames[row] // bundle identifier
         }
 
