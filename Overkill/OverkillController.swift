@@ -8,12 +8,12 @@
 
 import Cocoa
 
-class OverkillController: NSObject, PreferencesWindowDelegate {
+class OverkillController: NSObject {
     @IBOutlet weak var statusMenu: NSMenu!
     @IBOutlet weak var pauseButton: NSMenuItem!
+    @IBOutlet weak var startAtLoginMenuItem: NSMenuItem!
 
     var preferencesWindow: PreferencesWindow!
-    @IBOutlet weak var startAtLoginMenuItem: NSMenuItem!
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     var blackListedProcessNames: [String] = []
     var overkillIsPaused = false
@@ -44,7 +44,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     }
 
     @IBAction func didClickPreferences(_ sender: Any) {
-        if (preferencesWindow != nil) {
+        if preferencesWindow != nil {
             preferencesWindow.window?.close()
             preferencesWindow = nil
         }
@@ -60,16 +60,9 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         NSApplication.shared().terminate(self)
     }
 
-    func preferencesDidUpdate(blackListedProcessNames: Array<String>) {
-        self.blackListedProcessNames = blackListedProcessNames
-        UserDefaults.standard.setValue(self.blackListedProcessNames, forKey: USERDEFAULTSPROCESSNAMES)
-
-        self.killRunningApps()
-    }
-
     func startListening() {
-        let n = NSWorkspace.shared().notificationCenter
-        n.addObserver(self, selector: #selector(self.appWillLaunch(note:)),
+        let notificationCenter = NSWorkspace.shared().notificationCenter
+        notificationCenter.addObserver(self, selector: #selector(self.appWillLaunch(note:)),
                       name: .NSWorkspaceWillLaunchApplication,
                       object: nil)
 
@@ -77,44 +70,39 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     }
 
     func stopListening() {
-        let n = NSWorkspace.shared().notificationCenter
-        n.removeObserver(self, name: .NSWorkspaceWillLaunchApplication, object: nil)
+        let notificationCenter = NSWorkspace.shared().notificationCenter
+        notificationCenter.removeObserver(self, name: .NSWorkspaceWillLaunchApplication, object: nil)
     }
-
+    
     func killRunningApps() {
         let runningApplications = NSWorkspace.shared().runningApplications
-        for currentApplication in runningApplications.enumerated() {
-            let runningApplication = runningApplications[currentApplication.offset]
-
-            if (runningApplication.activationPolicy == .regular) { // normal macOS application
-                if (self.blackListedProcessNames.contains(runningApplication.bundleIdentifier!)) {
-                    self.killProcess(Int(runningApplication.processIdentifier))
-                }
-            }
-        }
+        runningApplications.filter { $0.activationPolicy == .regular }  // normal macOS application
+            .filter(self.containsBlackListedProcessName)
+            .forEach(self.killProcess)
     }
 
     func appWillLaunch(note: Notification) {
-        if let processBundleIdentifier: String = note.userInfo?["NSApplicationBundleIdentifier"] as? String { // the bundle identifier
-            if let processId = note.userInfo?["NSApplicationProcessIdentifier"] as? Int { // the pid
-                if (self.blackListedProcessNames.contains(processBundleIdentifier)) {
-                    self.killProcess(processId)
-                }
-            }
-        }
+        guard let processBundleIdentifier: String = note.userInfo?["NSApplicationBundleIdentifier"] as? String else { return } // the bundle identifier
+        guard let processId = note.userInfo?["NSApplicationProcessIdentifier"] as? Int else { return } // the pid
+        guard self.blackListedProcessNames.contains(processBundleIdentifier) else { return }
+        guard let process = NSRunningApplication(processIdentifier: pid_t(processId)) else { return }
+        self.killProcess(process)
     }
-
-    func killProcess(_ processId: Int) {
-        if let process = NSRunningApplication.init(processIdentifier: pid_t(processId)) {
-            print("Killing \(processId): \(String(describing: process.localizedName))")
-            process.forceTerminate()
-        }
+    
+    private func containsBlackListedProcessName(_ application: NSRunningApplication) -> Bool {
+        guard let bundleIdentifier = application.bundleIdentifier else { return false }
+        return self.blackListedProcessNames.contains(bundleIdentifier)
+    }
+    
+    private func killProcess(_ application: NSRunningApplication) {
+        print("Killing \(application.processIdentifier): \(String(describing: application.localizedName))")
+        application.forceTerminate()
     }
 
     @IBAction func didClickPause(_ sender: Any) {
         self.overkillIsPaused = !self.overkillIsPaused
 
-        if (self.overkillIsPaused) {
+        if self.overkillIsPaused {
             self.stopListening()
             self.pauseButton.title = "Resume Overkill"
         } else {
@@ -128,15 +116,21 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         refreshStartAtLoginState()
     }
     
+    func refreshStartAtLoginState() {
+        self.startAtLoginMenuItem.state = applicationIsInStartUpItems() ? 1 : 0
+    }
+}
+
+extension OverkillController: PreferencesWindowDelegate {
+    
     func preferencesDidUpdateAutoLaunch() {
         self.didClickStartAtLogin(self)
     }
     
-    func refreshStartAtLoginState() {
-        if (applicationIsInStartUpItems()) {
-            self.startAtLoginMenuItem.state = 1
-        } else {
-            self.startAtLoginMenuItem.state = 0
-        }
+    func preferencesDidUpdate(blackListedProcessNames: Array<String>) {
+        self.blackListedProcessNames = blackListedProcessNames
+        UserDefaults.standard.setValue(self.blackListedProcessNames, forKey: USERDEFAULTSPROCESSNAMES)
+        
+        self.killRunningApps()
     }
 }

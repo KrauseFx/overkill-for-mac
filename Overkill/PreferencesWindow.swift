@@ -51,10 +51,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         dialog.allowsMultipleSelection = false
         dialog.allowedFileTypes        = ["app"]
 
-        if (dialog.runModal() == NSModalResponseOK) {
+        if dialog.runModal() == NSModalResponseOK {
             let result = dialog.url // Pathname of the file
 
-            if (result != nil) {
+            if result != nil {
                 var fullPath = (result!.absoluteString) + "/Contents/Info.plist"
                 fullPath = fullPath.replacingOccurrences(of: "file://", with: "")
                 let content = NSDictionary(contentsOfFile: fullPath)
@@ -81,7 +81,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
     }
 
     @IBAction func didClickMinusButton(_ sender: Any) {
-        if (self.applicationsTableView.selectedRow >= 0) {
+        if self.applicationsTableView.selectedRow >= 0 {
             self.blackListedProcessNames.remove(at: self.applicationsTableView.selectedRow)
         }
 
@@ -113,7 +113,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         let column = (tableColumn?.identifier)!
         var txtValue = ""
 
-        if (column == "AutomaticTableColumnIdentifier.0") {
+        if column == "AutomaticTableColumnIdentifier.0" {
             txtValue = self.blackListedProcessNames[row] // bundle identifier
         }
 
