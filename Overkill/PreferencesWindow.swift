@@ -13,7 +13,7 @@ protocol PreferencesWindowDelegate {
     func preferencesDidUpdateAutoLaunch()
 }
 
-class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource {
+class PreferencesWindow: NSWindowController {
     @IBOutlet weak var applicationsTableView: NSTableView!
 
     var blackListedProcessNames: [String] = []
@@ -102,11 +102,15 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
     @IBAction func didClickOnDaniel(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://twitter.com/danielsinger")!)
     }
-    
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return self.blackListedProcessNames.count
-    }
+}
 
+extension PreferencesWindow: NSTableViewDataSource {
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return blackListedProcessNames.count
+    }
+}
+
+extension PreferencesWindow: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let identifier = tableColumn?.identifier.rawValue,
             let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: identifier), owner: self) as? NSTableCellView else {
