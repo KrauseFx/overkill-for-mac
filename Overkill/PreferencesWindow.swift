@@ -21,7 +21,6 @@ class PreferencesWindow: NSWindowController {
     @IBOutlet weak var startAtLoginButton: NSButton!
 
     var blackListedProcessNames = [String]()
-    var appIsInAutostart: Bool = false
     var delegate: PreferencesWindowDelegate?
 
     // MARK - Lifecycle
@@ -32,9 +31,6 @@ class PreferencesWindow: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
-        if appIsInAutostart {
-            startAtLoginButton.state = .on
-        }
         window?.center()
         window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
@@ -106,10 +102,14 @@ class PreferencesWindow: NSWindowController {
     }
     
     @IBAction func didClickKrauseFxBestButtonIsBestButton(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: "https://twitter.com/KrauseFx")!)
+        if let url = URL(string: "https://twitter.com/KrauseFx") {
+            NSWorkspace.shared.open(url)
+        }
     }
     @IBAction func didClickOnDaniel(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: "https://twitter.com/danielsinger")!)
+        if let url = URL(string: "https://twitter.com/danielsinger") {
+            NSWorkspace.shared.open(url)
+        }
     }
 }
 
