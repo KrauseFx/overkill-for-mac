@@ -9,18 +9,20 @@
 import Cocoa
 
 protocol PreferencesWindowDelegate {
-    func preferencesDidUpdate(blackListedProcessNames: Array<String>)
+    func preferencesDidUpdate(blackListedProcessNames: [String])
     func preferencesDidUpdateAutoLaunch()
 }
 
 class PreferencesWindow: NSWindowController {
+    
+    // MARK - Properties
+    
     @IBOutlet weak var applicationsTableView: NSTableView!
+    @IBOutlet weak var startAtLoginButton: NSButton!
 
-    var blackListedProcessNames: [String] = []
+    var blackListedProcessNames = [String]()
     var appIsInAutostart: Bool = false
     var delegate: PreferencesWindowDelegate?
-
-    @IBOutlet weak var startAtLoginButton: NSButton!
 
     override var windowNibName: String! {
         return "PreferencesWindow"
@@ -29,15 +31,15 @@ class PreferencesWindow: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         if appIsInAutostart {
-            self.startAtLoginButton.state = .on
+            startAtLoginButton.state = .on
         }
-        self.window?.center()
-        self.window?.makeKeyAndOrderFront(nil)
+        window?.center()
+        window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
 
     @IBAction func didClickDone(_ sender: Any) {
-        self.close()
+        close()
     }
 
     @IBAction func didClickPlusButton(_ sender: Any) {
@@ -67,30 +69,30 @@ class PreferencesWindow: NSWindowController {
                     alert.addButton(withTitle: "OK, I feel ashamed, I'm sorry")
                     alert.runModal()
                 } else {
-                    self.blackListedProcessNames.append(bundleIdentifier)
+                    blackListedProcessNames.append(bundleIdentifier)
                 }
             }
         }
 
-        self.applicationsTableView.reloadData()
-        self.delegate?.preferencesDidUpdate(blackListedProcessNames: self.blackListedProcessNames)
+        applicationsTableView.reloadData()
+        delegate?.preferencesDidUpdate(blackListedProcessNames: blackListedProcessNames)
     }
     
     override func cancelOperation(_ sender: Any?) {
-        self.close()
+        close()
     }
 
     @IBAction func didClickMinusButton(_ sender: Any) {
-        if (self.applicationsTableView.selectedRow >= 0) {
-            self.blackListedProcessNames.remove(at: self.applicationsTableView.selectedRow)
+        if (applicationsTableView.selectedRow >= 0) {
+            blackListedProcessNames.remove(at: applicationsTableView.selectedRow)
         }
 
-        self.applicationsTableView.reloadData()
-        self.delegate?.preferencesDidUpdate(blackListedProcessNames: self.blackListedProcessNames)
+        applicationsTableView.reloadData()
+        delegate?.preferencesDidUpdate(blackListedProcessNames: blackListedProcessNames)
     }
 
     @IBAction func didClickStartAtLogin(_ sender: NSButton) {
-        self.delegate?.preferencesDidUpdateAutoLaunch()
+        delegate?.preferencesDidUpdateAutoLaunch()
     }
     
     func windowWillClose(_ notification: Notification) {

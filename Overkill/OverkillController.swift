@@ -29,16 +29,16 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         if let blackListedProcessNames = UserDefaults.standard.array(forKey: USERDEFAULTSPROCESSNAMES) {
             self.blackListedProcessNames = blackListedProcessNames as! [String]
         } else {
-            self.blackListedProcessNames = ["com.apple.iTunes"]
+            blackListedProcessNames = ["com.apple.iTunes"]
         }
         
-        self.refreshStartAtLoginState()
+        refreshStartAtLoginState()
 
         startListening()
         
         // First time app launch, let's show the settings screen
         if UserDefaults.standard.bool(forKey: USERDEFAULTSFIRSTTIME) == false {
-            self.didClickPreferences(self)
+            didClickPreferences(self)
             UserDefaults.standard.set(true, forKey: USERDEFAULTSFIRSTTIME)
         }
     }
@@ -48,8 +48,8 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
             preferencesWindow.window?.close()
             preferencesWindow = nil
         }
-        self.preferencesWindow = PreferencesWindow()
-        preferencesWindow.blackListedProcessNames = self.blackListedProcessNames
+        preferencesWindow = PreferencesWindow()
+        preferencesWindow.blackListedProcessNames = blackListedProcessNames
         preferencesWindow.appIsInAutostart = applicationIsInStartUpItems()
         preferencesWindow.showWindow(nil)
         preferencesWindow.delegate = self
@@ -62,18 +62,18 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
 
     func preferencesDidUpdate(blackListedProcessNames: Array<String>) {
         self.blackListedProcessNames = blackListedProcessNames
-        UserDefaults.standard.setValue(self.blackListedProcessNames, forKey: USERDEFAULTSPROCESSNAMES)
+        UserDefaults.standard.setValue(blackListedProcessNames, forKey: USERDEFAULTSPROCESSNAMES)
 
-        self.killRunningApps()
+        killRunningApps()
     }
 
     func startListening() {
         let n = NSWorkspace.shared.notificationCenter
-        n.addObserver(self, selector: #selector(self.appWillLaunch(note:)),
+        n.addObserver(self, selector: #selector(appWillLaunch(note:)),
                       name: NSWorkspace.willLaunchApplicationNotification,
                       object: nil)
 
-        self.killRunningApps()
+        killRunningApps()
     }
 
     func stopListening() {
@@ -87,8 +87,8 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
             let runningApplication = runningApplications[currentApplication.offset]
 
             if (runningApplication.activationPolicy == .regular) { // normal macOS application
-                if (self.blackListedProcessNames.contains(runningApplication.bundleIdentifier!)) {
-                    self.killProcess(Int(runningApplication.processIdentifier))
+                if (blackListedProcessNames.contains(runningApplication.bundleIdentifier!)) {
+                    killProcess(Int(runningApplication.processIdentifier))
                 }
             }
         }
@@ -97,8 +97,8 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     @objc func appWillLaunch(note: Notification) {
         if let processBundleIdentifier: String = note.userInfo?["NSApplicationBundleIdentifier"] as? String { // the bundle identifier
             if let processId = note.userInfo?["NSApplicationProcessIdentifier"] as? Int { // the pid
-                if (self.blackListedProcessNames.contains(processBundleIdentifier)) {
-                    self.killProcess(processId)
+                if (blackListedProcessNames.contains(processBundleIdentifier)) {
+                    killProcess(processId)
                 }
             }
         }
@@ -112,14 +112,14 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     }
 
     @IBAction func didClickPause(_ sender: Any) {
-        self.overkillIsPaused = !self.overkillIsPaused
+        overkillIsPaused = !overkillIsPaused
 
-        if (self.overkillIsPaused) {
-            self.stopListening()
-            self.pauseButton.title = "Resume Overkill"
+        if (overkillIsPaused) {
+            stopListening()
+            pauseButton.title = "Resume Overkill"
         } else {
-            self.startListening()
-            self.pauseButton.title = "Pause Overkill"
+            startListening()
+            pauseButton.title = "Pause Overkill"
         }
     }
     
@@ -129,7 +129,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     }
     
     func preferencesDidUpdateAutoLaunch() {
-        self.didClickStartAtLogin(self)
+        didClickStartAtLogin(self)
     }
     
     func refreshStartAtLoginState() {
