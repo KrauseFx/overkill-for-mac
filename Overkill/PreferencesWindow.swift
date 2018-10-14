@@ -24,6 +24,8 @@ class PreferencesWindow: NSWindowController {
     var appIsInAutostart: Bool = false
     var delegate: PreferencesWindowDelegate?
 
+    // MARK - Lifecycle
+    
     override var windowNibName: String! {
         return "PreferencesWindow"
     }
@@ -37,14 +39,26 @@ class PreferencesWindow: NSWindowController {
         window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
-
+    
+    override func cancelOperation(_ sender: Any?) {
+        close()
+    }
+    
+    // MARK: - Public methods
+    
+    func update(startAtLoginButton state: NSControl.StateValue) {
+        startAtLoginButton.state = state
+    }
+    
+    // MARK: - Actions
+    
     @IBAction func didClickDone(_ sender: Any) {
         close()
     }
-
+    
     @IBAction func didClickPlusButton(_ sender: Any) {
         let dialog = NSOpenPanel()
-
+        
         dialog.directoryURL = URL(string: "/Applications")
         dialog.title                   = "Choose an application"
         dialog.showsResizeIndicator    = true
@@ -52,10 +66,10 @@ class PreferencesWindow: NSWindowController {
         dialog.canChooseDirectories    = false
         dialog.allowsMultipleSelection = false
         dialog.allowedFileTypes        = ["app"]
-
+        
         if (dialog.runModal() == .OK) {
             let result = dialog.url // Pathname of the file
-
+            
             if (result != nil) {
                 var fullPath = (result!.absoluteString) + "/Contents/Info.plist"
                 fullPath = fullPath.replacingOccurrences(of: "file://", with: "")
@@ -73,31 +87,24 @@ class PreferencesWindow: NSWindowController {
                 }
             }
         }
-
+        
         applicationsTableView.reloadData()
         delegate?.preferencesDidUpdate(blackListedProcessNames: blackListedProcessNames)
     }
     
-    override func cancelOperation(_ sender: Any?) {
-        close()
-    }
-
     @IBAction func didClickMinusButton(_ sender: Any) {
         if (applicationsTableView.selectedRow >= 0) {
             blackListedProcessNames.remove(at: applicationsTableView.selectedRow)
         }
-
+        
         applicationsTableView.reloadData()
         delegate?.preferencesDidUpdate(blackListedProcessNames: blackListedProcessNames)
     }
-
+    
     @IBAction func didClickStartAtLogin(_ sender: NSButton) {
         delegate?.preferencesDidUpdateAutoLaunch()
     }
     
-    func windowWillClose(_ notification: Notification) {
-
-    }
     @IBAction func didClickKrauseFxBestButtonIsBestButton(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://twitter.com/KrauseFx")!)
     }
