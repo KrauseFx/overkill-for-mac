@@ -14,7 +14,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
 
     var preferencesWindow: PreferencesWindow!
     @IBOutlet weak var startAtLoginMenuItem: NSMenuItem!
-    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     var blackListedProcessNames: [String] = []
     var overkillIsPaused = false
     let USERDEFAULTSPROCESSNAMES = "blacklistedProcessNames"
@@ -57,7 +57,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     }
 
     @IBAction func didClickExit(_ sender: Any) {
-        NSApplication.shared().terminate(self)
+        NSApplication.shared.terminate(self)
     }
 
     func preferencesDidUpdate(blackListedProcessNames: Array<String>) {
@@ -68,21 +68,21 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     }
 
     func startListening() {
-        let n = NSWorkspace.shared().notificationCenter
+        let n = NSWorkspace.shared.notificationCenter
         n.addObserver(self, selector: #selector(self.appWillLaunch(note:)),
-                      name: .NSWorkspaceWillLaunchApplication,
+                      name: NSWorkspace.willLaunchApplicationNotification,
                       object: nil)
 
         self.killRunningApps()
     }
 
     func stopListening() {
-        let n = NSWorkspace.shared().notificationCenter
-        n.removeObserver(self, name: .NSWorkspaceWillLaunchApplication, object: nil)
+        let n = NSWorkspace.shared.notificationCenter
+        n.removeObserver(self, name: NSWorkspace.willLaunchApplicationNotification, object: nil)
     }
 
     func killRunningApps() {
-        let runningApplications = NSWorkspace.shared().runningApplications
+        let runningApplications = NSWorkspace.shared.runningApplications
         for currentApplication in runningApplications.enumerated() {
             let runningApplication = runningApplications[currentApplication.offset]
 
@@ -94,7 +94,7 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
         }
     }
 
-    func appWillLaunch(note: Notification) {
+    @objc func appWillLaunch(note: Notification) {
         if let processBundleIdentifier: String = note.userInfo?["NSApplicationBundleIdentifier"] as? String { // the bundle identifier
             if let processId = note.userInfo?["NSApplicationProcessIdentifier"] as? Int { // the pid
                 if (self.blackListedProcessNames.contains(processBundleIdentifier)) {
@@ -133,10 +133,6 @@ class OverkillController: NSObject, PreferencesWindowDelegate {
     }
     
     func refreshStartAtLoginState() {
-        if (applicationIsInStartUpItems()) {
-            self.startAtLoginMenuItem.state = 1
-        } else {
-            self.startAtLoginMenuItem.state = 0
-        }
+        startAtLoginMenuItem.state = applicationIsInStartUpItems() ? .on : .off
     }
 }

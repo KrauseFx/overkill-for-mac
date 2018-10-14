@@ -29,7 +29,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
     override func windowDidLoad() {
         super.windowDidLoad()
         if appIsInAutostart {
-            self.startAtLoginButton.state = NSControlStateValueOn
+            self.startAtLoginButton.state = .on
         }
         self.window?.center()
         self.window?.makeKeyAndOrderFront(nil)
@@ -51,7 +51,7 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         dialog.allowsMultipleSelection = false
         dialog.allowedFileTypes        = ["app"]
 
-        if (dialog.runModal() == NSModalResponseOK) {
+        if (dialog.runModal() == .OK) {
             let result = dialog.url // Pathname of the file
 
             if (result != nil) {
@@ -97,10 +97,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
 
     }
     @IBAction func didClickKrauseFxBestButtonIsBestButton(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: "https://twitter.com/KrauseFx")!)
+        NSWorkspace.shared.open(URL(string: "https://twitter.com/KrauseFx")!)
     }
     @IBAction func didClickOnDaniel(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: "https://twitter.com/danielsinger")!)
+        NSWorkspace.shared.open(URL(string: "https://twitter.com/danielsinger")!)
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -108,16 +108,11 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        var result: NSTableCellView
-        result  = tableView.make(withIdentifier: (tableColumn?.identifier)!, owner: self) as! NSTableCellView
-        let column = (tableColumn?.identifier)!
-        var txtValue = ""
-
-        if (column == "AutomaticTableColumnIdentifier.0") {
-            txtValue = self.blackListedProcessNames[row] // bundle identifier
+        guard let identifier = tableColumn?.identifier.rawValue,
+            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: identifier), owner: self) as? NSTableCellView else {
+                return nil
         }
-
-        result.textField?.stringValue = txtValue
-        return result
+        cell.textField?.stringValue = identifier == "AutomaticTableColumnIdentifier.0" ? blackListedProcessNames[row] : ""
+        return cell
     }
 }
