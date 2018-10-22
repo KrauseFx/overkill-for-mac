@@ -2,47 +2,62 @@
 
 import Foundation
 
+// MARK - Public functions
+
 func applicationIsInStartUpItems() -> Bool {
-    return (itemReferencesInLoginItems().existingReference != nil)
+    return itemReferencesInLoginItems().existingReference != nil
 }
 
 func itemReferencesInLoginItems() -> (existingReference: LSSharedFileListItem?, lastReference: LSSharedFileListItem?) {
-    if let appURL : NSURL = NSURL.fileURL(withPath: Bundle.main.bundlePath) as NSURL {
-        if let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue() as LSSharedFileList? {
-            
-            let loginItems: NSArray = LSSharedFileListCopySnapshot(loginItemsRef, nil).takeRetainedValue() as NSArray
-            let lastItemRef: LSSharedFileListItem = loginItems.lastObject as! LSSharedFileListItem
-            
-            for (index, loginItem) in loginItems.enumerated() {
-                let currentItemRef: LSSharedFileListItem = loginItems.object(at: index) as! LSSharedFileListItem
-                if let itemURL = LSSharedFileListItemCopyResolvedURL(currentItemRef, 0, nil) {
-                    if (itemURL.takeRetainedValue() as NSURL).isEqual(appURL) {
-                        return (currentItemRef, lastItemRef)
-                    }
-                }
-            }
-            
-            return (nil, lastItemRef)
-        }
+    let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue()
+    
+    guard let loginItems = LSSharedFileListCopySnapshot(loginItemsRef, nil).takeRetainedValue() as? [LSSharedFileListItem],
+        let lastItemRef = loginItems.last else {
+            return (nil, nil)
     }
     
-    return (nil, nil)
+    let appURL = NSURL.fileURL(withPath: Bundle.main.bundlePath) as NSURL
+    let currentItemRef = loginItems.first { currentItemRef in
+        let itemURL = url(currentItemRef)
+        return itemURL.isEqual(appURL)
+    }
+    
+    return (currentItemRef, lastItemRef)
 }
 
 func toggleLaunchAtStartup() {
     let itemReferences = itemReferencesInLoginItems()
-    let shouldBeToggled = (itemReferences.existingReference == nil)
-    if let loginItemsRef = LSSharedFileListCreate( nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue() as LSSharedFileList? {
-        if shouldBeToggled {
-            if let appUrl : CFURL = NSURL.fileURL(withPath: Bundle.main.bundlePath) as CFURL {
-                print("Add login item %@", appUrl)
-                LSSharedFileListInsertItemURL(loginItemsRef, itemReferences.lastReference, nil, nil, appUrl, nil, nil)
-            }
-        } else {
-            if let itemRef = itemReferences.existingReference {
-                print("Remove login item %@", itemRef)
-                LSSharedFileListItemRemove(loginItemsRef,itemRef);
-            }
+    let appUrl = NSURL.fileURL(withPath: Bundle.main.bundlePath)
+    let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue()
+    
+    guard let existingReference = itemReferences.existingReference else {
+        if let lastReference = itemReferences.lastReference {
+            LSSharedFileListInsertItemURL(loginItemsRef, lastReference, nil, nil, appUrl as CFURL, nil, nil)
         }
+        return
     }
+    
+    let itemURL = url(existingReference)
+    LSSharedFileListItemRemove(loginItemsRef, get(item: itemURL))
 }
+
+// MARK - Private functions
+
+private func get(item byURL: NSURL) -> LSSharedFileListItem? {
+    let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue()
+    
+    guard let loginItems = LSSharedFileListCopySnapshot(loginItemsRef, nil).takeRetainedValue() as? [LSSharedFileListItem] else {
+        return nil
+    }
+    
+    let item = loginItems.first { currentItemRef in
+        let itemURL = url(currentItemRef)
+        return itemURL.isEqual(byURL)
+    }
+    return item
+}
+
+private func url(_ item: LSSharedFileListItem?) -> NSURL {
+    return LSSharedFileListItemCopyResolvedURL(item, 0, nil).takeRetainedValue() as NSURL
+}
+

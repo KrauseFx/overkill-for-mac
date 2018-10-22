@@ -9,40 +9,52 @@
 import Cocoa
 
 protocol PreferencesWindowDelegate {
-    func preferencesDidUpdate(blackListedProcessNames: Array<String>)
+    func preferencesDidUpdate(blackListedProcessNames: [String])
     func preferencesDidUpdateAutoLaunch()
 }
 
-class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource {
+class PreferencesWindow: NSWindowController {
+    
+    // MARK - Properties
+    
     @IBOutlet weak var applicationsTableView: NSTableView!
-
-    var blackListedProcessNames: [String] = []
-    var appIsInAutostart: Bool = false
-    var delegate: PreferencesWindowDelegate?
-
     @IBOutlet weak var startAtLoginButton: NSButton!
 
+    var blackListedProcessNames = [String]()
+    var delegate: PreferencesWindowDelegate?
+
+    // MARK - Lifecycle
+    
     override var windowNibName: String! {
         return "PreferencesWindow"
     }
 
     override func windowDidLoad() {
         super.windowDidLoad()
-        if appIsInAutostart {
-            self.startAtLoginButton.state = NSControlStateValueOn
-        }
-        self.window?.center()
-        self.window?.makeKeyAndOrderFront(nil)
+        window?.center()
+        window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
-
-    @IBAction func didClickDone(_ sender: Any) {
-        self.close()
+    
+    override func cancelOperation(_ sender: Any?) {
+        close()
     }
-
+    
+    // MARK: - Public methods
+    
+    func update(startAtLoginButton state: NSControl.StateValue) {
+        startAtLoginButton.state = state
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func didClickDone(_ sender: Any) {
+        close()
+    }
+    
     @IBAction func didClickPlusButton(_ sender: Any) {
         let dialog = NSOpenPanel()
-
+        
         dialog.directoryURL = URL(string: "/Applications")
         dialog.title                   = "Choose an application"
         dialog.showsResizeIndicator    = true
@@ -50,10 +62,10 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
         dialog.canChooseDirectories    = false
         dialog.allowsMultipleSelection = false
         dialog.allowedFileTypes        = ["app"]
-
-        if (dialog.runModal() == NSModalResponseOK) {
+        
+        if (dialog.runModal() == .OK) {
             let result = dialog.url // Pathname of the file
-
+            
             if (result != nil) {
                 var fullPath = (result!.absoluteString) + "/Contents/Info.plist"
                 fullPath = fullPath.replacingOccurrences(of: "file://", with: "")
@@ -67,57 +79,53 @@ class PreferencesWindow: NSWindowController, NSWindowDelegate, NSTableViewDelega
                     alert.addButton(withTitle: "OK, I feel ashamed, I'm sorry")
                     alert.runModal()
                 } else {
-                    self.blackListedProcessNames.append(bundleIdentifier)
+                    blackListedProcessNames.append(bundleIdentifier)
                 }
             }
         }
-
-        self.applicationsTableView.reloadData()
-        self.delegate?.preferencesDidUpdate(blackListedProcessNames: self.blackListedProcessNames)
+        
+        applicationsTableView.reloadData()
+        delegate?.preferencesDidUpdate(blackListedProcessNames: blackListedProcessNames)
     }
     
-    override func cancelOperation(_ sender: Any?) {
-        self.close()
-    }
-
     @IBAction func didClickMinusButton(_ sender: Any) {
-        if (self.applicationsTableView.selectedRow >= 0) {
-            self.blackListedProcessNames.remove(at: self.applicationsTableView.selectedRow)
+        if (applicationsTableView.selectedRow >= 0) {
+            blackListedProcessNames.remove(at: applicationsTableView.selectedRow)
         }
-
-        self.applicationsTableView.reloadData()
-        self.delegate?.preferencesDidUpdate(blackListedProcessNames: self.blackListedProcessNames)
-    }
-
-    @IBAction func didClickStartAtLogin(_ sender: NSButton) {
-        self.delegate?.preferencesDidUpdateAutoLaunch()
+        
+        applicationsTableView.reloadData()
+        delegate?.preferencesDidUpdate(blackListedProcessNames: blackListedProcessNames)
     }
     
-    func windowWillClose(_ notification: Notification) {
-
+    @IBAction func didClickStartAtLogin(_ sender: NSButton) {
+        delegate?.preferencesDidUpdateAutoLaunch()
     }
+    
     @IBAction func didClickKrauseFxBestButtonIsBestButton(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: "https://twitter.com/KrauseFx")!)
+        if let url = URL(string: "https://twitter.com/KrauseFx") {
+            NSWorkspace.shared.open(url)
+        }
     }
     @IBAction func didClickOnDaniel(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: "https://twitter.com/danielsinger")!)
-    }
-    
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return self.blackListedProcessNames.count
-    }
-
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        var result: NSTableCellView
-        result  = tableView.make(withIdentifier: (tableColumn?.identifier)!, owner: self) as! NSTableCellView
-        let column = (tableColumn?.identifier)!
-        var txtValue = ""
-
-        if (column == "AutomaticTableColumnIdentifier.0") {
-            txtValue = self.blackListedProcessNames[row] // bundle identifier
+        if let url = URL(string: "https://twitter.com/danielsinger") {
+            NSWorkspace.shared.open(url)
         }
+    }
+}
 
-        result.textField?.stringValue = txtValue
-        return result
+extension PreferencesWindow: NSTableViewDataSource {
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return blackListedProcessNames.count
+    }
+}
+
+extension PreferencesWindow: NSTableViewDelegate {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        guard let identifier = tableColumn?.identifier.rawValue,
+            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: identifier), owner: self) as? NSTableCellView else {
+                return nil
+        }
+        cell.textField?.stringValue = identifier == "AutomaticTableColumnIdentifier.0" ? blackListedProcessNames[row] : ""
+        return cell
     }
 }
