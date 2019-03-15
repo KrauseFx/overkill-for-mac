@@ -18,8 +18,10 @@ func itemReferencesInLoginItems() -> (existingReference: LSSharedFileListItem?, 
     
     let appURL = NSURL.fileURL(withPath: Bundle.main.bundlePath) as NSURL
     let currentItemRef = loginItems.first { currentItemRef in
-        let itemURL = url(currentItemRef)
-        return itemURL.isEqual(appURL)
+        if let itemURL = url(currentItemRef) {
+            return itemURL.isEqual(appURL)
+        }
+        return false
     }
     
     return (currentItemRef, lastItemRef)
@@ -37,8 +39,9 @@ func toggleLaunchAtStartup() {
         return
     }
     
-    let itemURL = url(existingReference)
-    LSSharedFileListItemRemove(loginItemsRef, get(item: itemURL))
+    if let itemURL = url(existingReference) {
+        LSSharedFileListItemRemove(loginItemsRef, get(item: itemURL))
+    }
 }
 
 // MARK - Private functions
@@ -51,13 +54,21 @@ private func get(item byURL: NSURL) -> LSSharedFileListItem? {
     }
     
     let item = loginItems.first { currentItemRef in
-        let itemURL = url(currentItemRef)
-        return itemURL.isEqual(byURL)
+        if let itemURL = url(currentItemRef) {
+            return itemURL.isEqual(byURL)
+        }
+        return false
     }
     return item
 }
 
-private func url(_ item: LSSharedFileListItem?) -> NSURL {
-    return LSSharedFileListItemCopyResolvedURL(item, 0, nil).takeRetainedValue() as NSURL
+private func url(_ item: LSSharedFileListItem?) -> NSURL? {
+    var error: Unmanaged<CFError>? = nil
+    let ret = LSSharedFileListItemCopyResolvedURL(item, 0, &error)
+    if error == nil {
+        return ret!.takeRetainedValue() as NSURL
+    }
+    // Normally: Error Domain=NSCocoaErrorDomain Code=4 "The file doesn’t exist."
+    return nil
 }
 
