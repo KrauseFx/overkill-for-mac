@@ -126,7 +126,7 @@ class OverkillController: NSObject {
     
     private func killProcess(_ processId: Int) {
         if let process = NSRunningApplication.init(processIdentifier: pid_t(processId)) {
-            print("Killing \(processId): \(String(describing: process.localizedName))")
+            print("Killing \(processId): \(String(describing: process.localizedName!))")
             process.forceTerminate()
         }
     }
