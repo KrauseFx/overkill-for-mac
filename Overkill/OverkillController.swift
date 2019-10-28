@@ -46,7 +46,7 @@ class OverkillController: NSObject {
     
     private lazy var blackListedProcessNames: [String] = {
         guard let blackListedProcessNames = UserDefaults.standard.array(forKey: USERDEFAULTSPROCESSNAMES) as? [String] else {
-            return ["com.apple.iTunes"]
+            return ["com.apple.iTunes", "com.apple.Music"]
         }
         return blackListedProcessNames
     }()
