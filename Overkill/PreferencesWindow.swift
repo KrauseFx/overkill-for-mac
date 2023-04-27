@@ -68,7 +68,7 @@ class PreferencesWindow: NSWindowController {
             
             if (result != nil) {
                 var fullPath = (result!.absoluteString) + "/Contents/Info.plist"
-                fullPath = fullPath.replacingOccurrences(of: "file://", with: "")
+                fullPath = fullPath.replacingOccurrences(of: "file://", with: "").removingPercentEncoding!
                 let content = NSDictionary(contentsOfFile: fullPath)
                 let bundleIdentifier = content?.value(forKey: "CFBundleIdentifier") as! String
                 if (bundleIdentifier == "com.krausefx.Overkill") {
