@@ -30,7 +30,7 @@ Just download Overkill from the [link](https://github.com/KrauseFx/overkill-for-
 Also, you can install using Homebrew:
 
 ```
-brew cask install overkill
+brew install overkill --cask
 ```
 
 ## Credits
